@@ -1,4 +1,13 @@
 class QuestionsController < ApplicationController
+  def index
+    @questions = Question.all
+  end
+
+  def show
+    @question = Question.find(params[:id])
+    @answer = Answer.new
+  end
+
   def new
     @question = Question.new
   end
@@ -6,7 +15,7 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params)
     if @question.save
-      redirect_to @question
+      redirect_to @question, notice: 'Question successfully created.'
     else
       render :new
     end
