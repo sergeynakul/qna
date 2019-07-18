@@ -16,7 +16,8 @@ feature 'User can destroy question' do
   end
 
   scenario 'Author tries to delete quesion' do
-    expect(page).to have_link 'Delete question'
+    click_on 'Delete question'
+    expect(page).to_not have_content 'Test title'
   end
 
   scenario 'Not author tries to delete quesion' do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'User can sign out' do
-  given(:user) { User.create!(email: 'test@mail.com', password: '12345678') }
+  given(:user) { create(:user) }
 
   background { visit new_user_session_path }
 

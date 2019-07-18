@@ -26,7 +26,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to new' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-        expect(response).to render_template 'questions/show'
+        expect(response).to redirect_to question_path(question)
       end
     end
   end

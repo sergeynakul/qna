@@ -15,7 +15,8 @@ feature 'User can destroy answer' do
   end
 
   scenario 'Author tries to delete answer' do
-    expect(page).to have_link 'Delete answer'
+    click_on 'Delete answer'
+    expect(page).to_not have_content 'Test answer body'
   end
 
   scenario 'Not author tries to delete answer' do
