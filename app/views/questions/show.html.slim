@@ -5,9 +5,10 @@ p= @question.body
 
 ul
   - @question.answers.each do |answer|
-    li= answer.body
-    - if current_user&.author?(answer)
-      = link_to 'Delete answer', answer, method: :delete
+    - if answer.persisted?
+      li= answer.body
+      - if current_user&.author?(answer)
+        = link_to 'Delete answer', answer, method: :delete
 
 = render 'shared/errors', resource: @answer
 

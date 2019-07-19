@@ -25,4 +25,10 @@ feature 'User can destroy answer' do
 
     expect(page).to_not have_link 'Delete answer'
   end
+
+  scenario 'Not authenticated user tries to delete answer' do
+    click_on 'Log out'
+
+    expect(page).to_not have_link 'Delete answer'
+  end
 end

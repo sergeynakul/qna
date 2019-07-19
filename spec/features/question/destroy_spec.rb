@@ -26,4 +26,10 @@ feature 'User can destroy question' do
 
     expect(page).to_not have_link 'Delete question'
   end
+
+  scenario 'Not authenticated user tries to delete quesion' do
+    click_on 'Log out'
+
+    expect(page).to_not have_link 'Delete question'
+  end
 end
