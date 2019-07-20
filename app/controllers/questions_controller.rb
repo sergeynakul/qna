@@ -29,7 +29,7 @@ class QuestionsController < ApplicationController
       @question.destroy
       redirect_to root_path, notice: 'Question successfully deleted.'
     else
-      redirect_to root_path, alert: "You don't author the question"
+      redirect_to @question, alert: "You don't author this question"
     end
   end
 
