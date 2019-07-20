@@ -15,15 +15,18 @@ feature 'User can create answer', "
       visit question_path(question)
     end
 
-    scenario 'with valid attributes' do
+    scenario 'with valid attributes', js: true do
       fill_in 'Body', with: 'Test answer body'
       click_on 'Create answer'
 
+      expect(current_path).to eq question_path(question)
       expect(page).to have_content 'Answer successfully created.'
-      expect(page).to have_content 'Test answer body'
+      within '.answers' do
+        expect(page).to have_content 'Test answer body'
+      end
     end
 
-    scenario 'with invalid attributes' do
+    scenario 'with invalid attributes', js: true do
       click_on 'Create answer'
 
       expect(page).to have_content "Body can't be blank"

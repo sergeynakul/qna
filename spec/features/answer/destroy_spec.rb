@@ -3,20 +3,18 @@ require 'rails_helper'
 feature 'User can destroy answer' do
   given(:user) { create(:user) }
   given(:another_user) { create(:user) }
-  given(:question) { create :question }
+  given(:question) { create(:question, user: user) }
+  given!(:answer) { create(:answer, user: user, question: question) }
 
   background do
     sign_in(user)
 
     visit question_path(question)
-
-    fill_in 'Body', with: 'Test answer body'
-    click_on 'Create answer'
   end
 
   scenario 'Author tries to delete answer' do
     click_on 'Delete answer'
-    expect(page).to_not have_content 'Test answer body'
+    expect(page).to_not have_content 'Answer body'
   end
 
   scenario 'Not author tries to delete answer' do
