@@ -1,17 +1,25 @@
 class AnswersController < ApplicationController
-  before_action :set_question, only: %i[new create]
-
-  def new
-    @answer = @question.answers.new
-  end
+  before_action :authenticate_user!
+  before_action :set_question, only: :create
 
   def create
     @answer = @question.answers.new(answer_params)
+    @answer.user = current_user
 
     if @answer.save
-      redirect_to @answer
+      redirect_to question_path(@question), notice: 'Answer successfully created.'
     else
-      render :new
+      render 'questions/show'
+    end
+  end
+
+  def destroy
+    @answer = Answer.find(params[:id])
+    if current_user.author?(@answer)
+      @answer.destroy
+      redirect_to @answer.question, notice: 'Answer successfully deleted.'
+    else
+      redirect_to @answer.question, alert: "You don't author the answer"
     end
   end
 
