@@ -12,12 +12,14 @@ feature 'User can view' do
 
   scenario 'question and answers for this question' do
     question = create(:question)
-    create_list(:answer, 3, question: question)
+    answers = create_list(:answer, 3, question: question)
 
     visit question_path(question)
 
     expect(page).to have_content 'Question title'
     expect(page).to have_content 'Question body'
-    expect(page).to have_content('Answer body', count: 3)
+    answers.each do |answer|
+      expect(page).to have_content answer.body
+    end
   end
 end
