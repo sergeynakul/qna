@@ -1,10 +1,9 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_question, only: %i[show destroy]
+  before_action :set_questions, only: %i[index update]
+  before_action :set_question, only: %i[show update destroy]
 
-  def index
-    @questions = Question.all
-  end
+  def index; end
 
   def show
     @answer = Answer.new
@@ -23,6 +22,10 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def update
+    @question.update(question_params) if current_user.author?(@question)
+  end
+
   def destroy
     if current_user.author?(@question)
       @question.destroy
@@ -33,6 +36,10 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def set_questions
+    @questions = Question.all
+  end
 
   def set_question
     @question = Question.find(params[:id])

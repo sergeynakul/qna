@@ -47,6 +47,52 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
+  describe 'PATCH #update' do
+    let!(:question) { create(:question, user: user) }
+
+    context 'with valid attributes' do
+      it 'assigns requested question to @question' do
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'changes question attributes' do
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
+        question.reload
+        expect(question.title).to eq 'new title'
+        expect(question.body).to eq 'new body'
+      end
+
+      it 'renders update template' do
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'not changes question attributes' do
+        expect { patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js }.to_not change(question, :title)
+      end
+
+      it 'renders update template' do
+        patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'user is not author of question' do
+      before { login(other_user) }
+
+      it 'can not change question' do
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
+        question.reload
+
+        expect(question.title).to_not eq 'new title'
+        expect(question.body).to_not eq 'new body'
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     let!(:question) { create(:question, user: user) }
 
