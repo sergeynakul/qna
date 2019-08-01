@@ -98,12 +98,12 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'author question' do
       it 'delete the question' do
-        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+        expect { delete :destroy, params: { id: question }, format: :js }.to change(Question, :count).by(-1)
       end
 
-      it 'redirects to root' do
-        delete :destroy, params: { id: question }
-        expect(response).to redirect_to root_path
+      it 'renders template destroy' do
+        delete :destroy, params: { id: question }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -111,12 +111,12 @@ RSpec.describe QuestionsController, type: :controller do
       before { login(other_user) }
 
       it 'not delete the question' do
-        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+        expect { delete :destroy, params: { id: question }, format: :js }.to_not change(Question, :count)
       end
 
-      it 'redirects to root' do
-        delete :destroy, params: { id: question }
-        expect(response).to redirect_to question
+      it 'renders template destroy' do
+        delete :destroy, params: { id: question }, format: :js
+        expect(response).to render_template :destroy
       end
     end
   end
