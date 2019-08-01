@@ -12,9 +12,9 @@ feature 'User can destroy answer' do
     visit question_path(question)
   end
 
-  scenario 'Author tries to delete answer' do
+  scenario 'Author tries to delete answer', js: true do
     click_on 'Delete answer'
-    expect(page).to_not have_content 'Answer body'
+    expect(page).to_not have_content answer.body
   end
 
   scenario 'Not author tries to delete answer' do
