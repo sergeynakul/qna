@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: :create
-  before_action :set_answer, only: %i[update destroy]
+  before_action :set_answer, only: %i[update destroy best]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -16,6 +16,11 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy if current_user.author?(@answer)
+  end
+
+  def best
+    @question = @answer.question
+    @answer.best! if current_user.author?(@question)
   end
 
   private
