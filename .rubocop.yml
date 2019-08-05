@@ -8,4 +8,4 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 
 Metrics/BlockLength:
-  Max: 60
+  Max: 100

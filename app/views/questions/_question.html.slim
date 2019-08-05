@@ -1,3 +1,13 @@
-tr
-  td= question.title
-  td= question.body
+div id="question-#{question.id}"
+  p= link_to question.title, question
+  p= question.body
+  - if current_user&.author?(question)
+    p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
+    p= link_to 'Delete', question, method: :delete, remote: true
+
+= form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
+  = f.label :title
+  = f.text_field :title
+  = f.label :body
+  = f.text_area :body
+  = f.submit 'Ask'

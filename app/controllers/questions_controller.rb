@@ -1,12 +1,11 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
+  before_action :set_questions, only: %i[index update]
+  before_action :set_question, only: %i[show update destroy]
 
-  def index
-    @questions = Question.all
-  end
+  def index; end
 
   def show
-    @question = Question.find(params[:id])
     @answer = Answer.new
   end
 
@@ -23,17 +22,23 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def update
+    @question.update(question_params) if current_user.author?(@question)
+  end
+
   def destroy
-    @question = Question.find(params[:id])
-    if current_user.author?(@question)
-      @question.destroy
-      redirect_to root_path, notice: 'Question successfully deleted.'
-    else
-      redirect_to @question, alert: "You don't author this question"
-    end
+    @question.destroy if current_user.author?(@question)
   end
 
   private
+
+  def set_questions
+    @questions = Question.all
+  end
+
+  def set_question
+    @question = Question.find(params[:id])
+  end
 
   def question_params
     params.require(:question).permit(:title, :body)
