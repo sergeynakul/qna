@@ -1,5 +1,8 @@
 p= @question.title
 p= @question.body
+- if @question.files.attached?
+  - @question.files.each do |file|
+    p= link_to file.filename.to_s, url_for(file)
 - if current_user&.author?(@question)
   p= link_to 'Delete question', @question, method: :delete
 
@@ -9,10 +12,6 @@ p= @question.body
 .answer-errors
   = render 'shared/errors', resource: @answer
 
-h3 Your answer
-= form_with model: [@question, @answer], class: 'new-answer' do |f|
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Create answer'
+= render 'answers/new'
 
 p= link_to 'Back', root_path

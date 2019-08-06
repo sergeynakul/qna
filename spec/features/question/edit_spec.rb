@@ -47,6 +47,16 @@ feature 'User can edit question', "
       expect(page).to have_content "Title can't be blank"
       expect(page).to have_content "Body can't be blank"
     end
+
+    scenario 'edits his question with attached files', js: true do
+      fill_in 'Title', with: 'edited title'
+      fill_in 'Body', with: 'edited body'
+      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+      click_on 'Ask'
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
   end
 
   scenario "Authenticated user tries to edit other user's answer" do
