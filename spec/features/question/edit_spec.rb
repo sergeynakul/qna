@@ -15,7 +15,7 @@ feature 'User can edit question', "
     expect(page).to_not have_link 'Edit'
   end
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background do
       sign_in(user)
       visit questions_path
@@ -23,7 +23,7 @@ feature 'User can edit question', "
       click_on 'Edit'
     end
 
-    scenario 'edits his question', js: true do
+    scenario 'edits his question' do
       fill_in 'Title', with: 'edited title'
       fill_in 'Body', with: 'edited body'
       click_on 'Ask'
@@ -35,7 +35,7 @@ feature 'User can edit question', "
       expect(page).to_not have_selector 'textarea'
     end
 
-    scenario 'edits his question with errors', js: true do
+    scenario 'edits his question with errors' do
       fill_in 'Title', with: ''
       fill_in 'Body', with: ''
       click_on 'Ask'
@@ -48,14 +48,24 @@ feature 'User can edit question', "
       expect(page).to have_content "Body can't be blank"
     end
 
-    scenario 'edits his question with attached files', js: true do
-      fill_in 'Title', with: 'edited title'
-      fill_in 'Body', with: 'edited body'
+    scenario 'edits his question with attached files' do
       attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Ask'
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'delete his file' do
+      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+      click_on 'Ask'
+
+      within "#question-#{question.id}" do
+        first('.file').click_on 'Delete file'
+
+        expect(page).to_not have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
     end
   end
 
