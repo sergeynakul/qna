@@ -6,6 +6,11 @@ div.answer id="answer-#{answer.id}"
       .file id="file-#{file.id}"
         = link_to file.filename.to_s, url_for(file)
         = link_to 'Delete file', attachment_path(file), method: :delete, remote: true
+  .links
+    p Links:
+    ul
+      - answer.links.each do |link|
+        li= link_to link.name, link.url
   - if !answer.best? && current_user&.author?(answer.question)
     p= link_to 'Best', best_answer_path(answer), method: :patch, remote: true
   - if current_user&.author?(answer)

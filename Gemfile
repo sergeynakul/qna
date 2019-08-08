@@ -36,13 +36,13 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
+gem 'aws-sdk-s3'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise'
+gem 'dotenv-rails', groups: %i[development test]
 gem 'jquery-rails'
 gem 'rubocop', require: false
 gem 'slim-rails'
-gem 'aws-sdk-s3'
-gem 'dotenv-rails', groups: [:development, :test]
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
