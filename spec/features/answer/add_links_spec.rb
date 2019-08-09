@@ -42,5 +42,13 @@ feature 'User can add links to answer', "
         expect(page).to have_link 'My gist 2', href: other_gist_url
       end
     end
+
+    scenario 'invalid link' do
+      fill_in 'Url', with: 'googlecom'
+      click_on 'Create answer'
+
+      expect(page).to have_content 'Links url is not a valid URL'
+      expect(page).to_not have_link 'My gist'
+    end
   end
 end
