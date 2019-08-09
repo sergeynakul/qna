@@ -5,22 +5,42 @@ feature 'User can add links to answer', "
   As an answer's author
   I'd like to be able to add links
 " do
-  given(:user) { create(:user) }
-  given(:question) { create :question }
-  given(:gist_url) { 'https://gist.github.com/vkurennov/743f9367caa1039874af5a2244e1b44c' }
+  describe 'User adds', js: true do
+    given(:user) { create(:user) }
+    given(:question) { create :question }
+    given(:gist_url) { 'https://gist.github.com/sergeynakul/ba9556a2dba56dbfdf1027fc2f590c38' }
+    given(:other_gist_url) { 'https://gist.github.com/sergeynakul/c1fa04dd4231f57f5a5047b75886f195' }
 
-  scenario 'User adds link when asks question', js: true do
-    sign_in(user)
-    visit question_path(question)
+    before do
+      sign_in(user)
+      visit question_path(question)
 
-    fill_in 'Body', with: 'Test answer body'
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
+      fill_in 'Body', with: 'Test answer body'
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: gist_url
+    end
 
-    click_on 'Create answer'
+    scenario 'link when asks question' do
+      click_on 'Create answer'
 
-    within '.answers' do
-      expect(page).to have_link 'My gist', href: gist_url
+      within '.answers' do
+        expect(page).to have_link 'My gist', href: gist_url
+      end
+    end
+
+    scenario 'links when asks question' do
+      click_on 'add link'
+      within all('.nested-fields').last do
+        fill_in 'Link name', with: 'My gist 2'
+        fill_in 'Url', with: other_gist_url
+      end
+
+      click_on 'Create answer'
+
+      within '.answers' do
+        expect(page).to have_link 'My gist', href: gist_url
+        expect(page).to have_link 'My gist 2', href: other_gist_url
+      end
     end
   end
 end
