@@ -41,6 +41,17 @@ feature 'User can create question', "
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
     end
+
+    scenario 'with reward' do
+      fill_in 'Title', with: 'Test title'
+      fill_in 'Body', with: 'Test body'
+      fill_in 'Name', with: 'Reward name'
+      attach_file 'Image', "#{Rails.root}/spec/fixtures/images/reward.png"
+
+      click_on 'Ask'
+
+      expect(page).to have_content 'Question successfully created.'
+    end
   end
 
   scenario 'Unauthenticated user tries to ask a question' do

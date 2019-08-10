@@ -4,6 +4,7 @@ RSpec.describe Answer, type: :model do
   it { should belong_to(:question) }
   it { should belong_to(:user) }
   it { should have_many(:links).dependent(:destroy) }
+  it { should have_one(:reward) }
 
   it { should validate_presence_of(:body) }
 
@@ -14,8 +15,8 @@ RSpec.describe Answer, type: :model do
     let(:other_user) { create(:user) }
     let(:question) { create(:question, user: user) }
     let(:answers) { create_list(:answer, 2, user: other_user, question: question) }
-    let(:answer_first) { answers.first }
-    let(:answer_last) { answers.last }
+    let!(:answer_first) { answers.first }
+    let!(:answer_last) { answers.last }
 
     it 'not the best' do
       expect(answer_first).to_not be_best

@@ -8,7 +8,7 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 
 Metrics/BlockLength:
-  Max: 110
+  Max: 115
 
 Metrics/AbcSize:
   Max: 20
