@@ -49,7 +49,7 @@ feature 'User can add links to question', "
       expect(page).to_not have_link 'My gist'
     end
 
-    scenario 'link on gust' do
+    scenario 'link on gist' do
       fill_in 'Url', with: gist_url
       click_on 'Ask'
 

@@ -5,8 +5,9 @@ div.answer id="answer-#{answer.id}"
       .file id="file-#{file.id}"
         = link_to file.filename.to_s, url_for(file)
         = link_to 'Delete file', attachment_path(file), method: :delete, remote: true
-  .links
-    = render 'shared/links', resource: answer
+  - if answer.links.present?
+    .links
+      = render 'shared/links', resource: answer
   - if !answer.best? && current_user&.author?(answer.question)
     p= link_to 'Best', best_answer_path(answer), method: :patch, remote: true
   - if current_user&.author?(answer)
@@ -18,4 +19,5 @@ div.answer id="answer-#{answer.id}"
   = f.text_area :body
   = f.label :files
   = f.file_field :files, multiple: true, direct_upload: true
+  = render 'shared/links_form', f: f
   = f.submit 'Save'

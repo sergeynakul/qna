@@ -4,8 +4,9 @@ p= @question.body
   - @question.files.each do |file|
     p= link_to file.filename.to_s, url_for(file)
     
-.links
-  = render 'shared/links', resource: @question
+- if @question.links.present?
+  .links
+    = render 'shared/links', resource: @question
 
 - if current_user&.author?(@question)
   p= link_to 'Delete question', @question, method: :delete
