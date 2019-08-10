@@ -6,6 +6,8 @@ div id="question-#{question.id}"
       .file id="file-#{file.id}"
         = link_to file.filename.to_s, url_for(file)
         = link_to 'Delete file', attachment_path(file), method: :delete, remote: true
+  .links
+    = render 'shared/links', resource: question
   - if current_user&.author?(question)
     p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
     p= link_to 'Delete', question, method: :delete, remote: true

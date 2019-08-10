@@ -8,7 +8,8 @@ feature 'User can add links to question', "
   describe 'User adds', js: true do
     given(:user) { create(:user) }
     given(:gist_url) { 'https://gist.github.com/sergeynakul/ba9556a2dba56dbfdf1027fc2f590c38' }
-    given(:other_gist_url) { 'https://gist.github.com/sergeynakul/c1fa04dd4231f57f5a5047b75886f195' }
+    given(:github_url) { 'https://github.com/' }
+    given(:gismeteo_url) { 'https://www.gismeteo.ua/' }
 
     before do
       sign_in(user)
@@ -17,26 +18,26 @@ feature 'User can add links to question', "
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'text text text'
       fill_in 'Link name', with: 'My gist'
-      fill_in 'Url', with: gist_url
+      fill_in 'Url', with: github_url
     end
 
     scenario 'link when asks question' do
       click_on 'Ask'
 
-      expect(page).to have_link 'My gist', href: gist_url
+      expect(page).to have_link 'My gist', href: github_url
     end
 
     scenario 'links when asks question' do
       click_on 'add link'
       within all('.nested-fields').last do
         fill_in 'Link name', with: 'My gist 2'
-        fill_in 'Url', with: other_gist_url
+        fill_in 'Url', with: gismeteo_url
       end
 
       click_on 'Ask'
 
-      expect(page).to have_link 'My gist', href: gist_url
-      expect(page).to have_link 'My gist 2', href: other_gist_url
+      expect(page).to have_link 'My gist', href: github_url
+      expect(page).to have_link 'My gist 2', href: gismeteo_url
     end
 
     scenario 'invalid link' do
@@ -46,6 +47,14 @@ feature 'User can add links to question', "
 
       expect(page).to have_content 'Links url is not a valid URL'
       expect(page).to_not have_link 'My gist'
+    end
+
+    scenario 'link on gust' do
+      fill_in 'Url', with: gist_url
+      click_on 'Ask'
+
+      expect(page).to have_content 'SQL запросы'
+      expect(page).to have_content 'sergey@comp:~$ sqlite3 test_guru'
     end
   end
 end

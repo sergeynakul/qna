@@ -42,6 +42,7 @@ gem 'cocoon'
 gem 'devise'
 gem 'dotenv-rails', groups: %i[development test]
 gem 'jquery-rails'
+gem 'octokit', '~> 4.0'
 gem 'rubocop', require: false
 gem 'slim-rails'
 gem 'validate_url'

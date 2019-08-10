@@ -1,0 +1,10 @@
+p Links:
+ul
+  - resource.links.each do |link|
+    li id="link-#{link.id}"
+      - if link.gist?
+        - link.gist.each do |file|
+          p= file[:name]
+          code= file[:content]
+      - else
+      = link_to link.name, link.url
