@@ -8,6 +8,7 @@ feature 'User can edit question', "
   given(:user) { create(:user) }
   given(:other_user) { create(:user) }
   given!(:question) { create(:question, user: user) }
+  given(:github_url) { 'https://github.com/' }
 
   scenario 'Unauthenticated user can not edit question' do
     visit questions_path
@@ -66,6 +67,17 @@ feature 'User can edit question', "
         expect(page).to_not have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
       end
+    end
+
+    scenario 'can add link to his question' do
+      click_on 'add link'
+
+      fill_in 'Link name', with: 'My link'
+      fill_in 'Url', with: github_url
+
+      click_on 'Ask'
+
+      expect(page).to have_link 'My link', href: github_url
     end
   end
 

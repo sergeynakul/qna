@@ -17,7 +17,7 @@ feature 'User can add links to answer', "
       visit question_path(question)
 
       fill_in 'Body', with: 'Test answer body'
-      fill_in 'Link name', with: 'My gist'
+      fill_in 'Link name', with: 'My link'
       fill_in 'Url', with: github_url
     end
 
@@ -25,22 +25,22 @@ feature 'User can add links to answer', "
       click_on 'Create answer'
 
       within '.answers' do
-        expect(page).to have_link 'My gist', href: github_url
+        expect(page).to have_link 'My link', href: github_url
       end
     end
 
     scenario 'links when asks question' do
       click_on 'add link'
       within all('.nested-fields').last do
-        fill_in 'Link name', with: 'My gist 2'
+        fill_in 'Link name', with: 'My link 2'
         fill_in 'Url', with: gismeteo_url
       end
 
       click_on 'Create answer'
 
       within '.answers' do
-        expect(page).to have_link 'My gist', href: github_url
-        expect(page).to have_link 'My gist 2', href: gismeteo_url
+        expect(page).to have_link 'My link', href: github_url
+        expect(page).to have_link 'My link 2', href: gismeteo_url
       end
     end
 
@@ -49,7 +49,7 @@ feature 'User can add links to answer', "
       click_on 'Create answer'
 
       expect(page).to have_content 'Links url is not a valid URL'
-      expect(page).to_not have_link 'My gist'
+      expect(page).to_not have_link 'My link'
     end
 
     scenario 'link on gist' do

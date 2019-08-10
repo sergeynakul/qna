@@ -9,6 +9,7 @@ feature 'User can edit answer', "
   given(:other_user) { create(:user) }
   given(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, user: user, question: question) }
+  given(:github_url) { 'https://github.com/' }
 
   scenario 'Unauthenticated user can not edit answer' do
     visit question_path(question)
@@ -66,6 +67,19 @@ feature 'User can edit answer', "
 
         expect(page).to_not have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+
+    scenario 'can add link to his answer' do
+      within '.answers' do
+        click_on 'add link'
+
+        fill_in 'Link name', with: 'My link'
+        fill_in 'Url', with: github_url
+
+        click_on 'Save'
+
+        expect(page).to have_link 'My link', href: github_url
       end
     end
   end

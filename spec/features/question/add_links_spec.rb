@@ -17,27 +17,27 @@ feature 'User can add links to question', "
 
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'text text text'
-      fill_in 'Link name', with: 'My gist'
+      fill_in 'Link name', with: 'My link'
       fill_in 'Url', with: github_url
     end
 
     scenario 'link when asks question' do
       click_on 'Ask'
 
-      expect(page).to have_link 'My gist', href: github_url
+      expect(page).to have_link 'My link', href: github_url
     end
 
     scenario 'links when asks question' do
       click_on 'add link'
       within all('.nested-fields').last do
-        fill_in 'Link name', with: 'My gist 2'
+        fill_in 'Link name', with: 'My link 2'
         fill_in 'Url', with: gismeteo_url
       end
 
       click_on 'Ask'
 
-      expect(page).to have_link 'My gist', href: github_url
-      expect(page).to have_link 'My gist 2', href: gismeteo_url
+      expect(page).to have_link 'My link', href: github_url
+      expect(page).to have_link 'My link 2', href: gismeteo_url
     end
 
     scenario 'invalid link' do
@@ -46,7 +46,7 @@ feature 'User can add links to question', "
       click_on 'Ask'
 
       expect(page).to have_content 'Links url is not a valid URL'
-      expect(page).to_not have_link 'My gist'
+      expect(page).to_not have_link 'My link'
     end
 
     scenario 'link on gist' do
