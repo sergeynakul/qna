@@ -8,9 +8,6 @@ p= @question.body
   .links
     = render 'shared/links', resource: @question
 
-- if current_user&.author?(@question)
-  p= link_to 'Delete question', @question, method: :delete
-
 .answers
   h3 Answers
   = render @question.answers
