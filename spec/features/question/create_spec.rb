@@ -13,11 +13,12 @@ feature 'User can create question', "
 
       visit questions_path
       click_on 'Ask question'
+
+      fill_in 'Title', with: 'Test title'
+      fill_in 'Body', with: 'Test body'
     end
 
     scenario 'with valid attributes' do
-      fill_in 'Title', with: 'Test title'
-      fill_in 'Body', with: 'Test body'
       click_on 'Ask'
 
       expect(page).to have_content 'Question successfully created.'
@@ -26,6 +27,8 @@ feature 'User can create question', "
     end
 
     scenario 'with invalid attributes' do
+      fill_in 'Title', with: ''
+      fill_in 'Body', with: ''
       click_on 'Ask'
 
       expect(page).to have_content "Title can't be blank"
@@ -33,13 +36,20 @@ feature 'User can create question', "
     end
 
     scenario 'with attached files' do
-      fill_in 'Title', with: 'Test title'
-      fill_in 'Body', with: 'Test body'
       attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Ask'
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'with reward' do
+      fill_in 'Name', with: 'Reward name'
+      attach_file 'Image', "#{Rails.root}/spec/fixtures/images/reward.png"
+
+      click_on 'Ask'
+
+      expect(page).to have_content 'Question successfully created.'
     end
   end
 

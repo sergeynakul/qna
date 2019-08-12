@@ -8,6 +8,8 @@ feature 'User can choose best answer', "
   given(:user) { create(:user) }
   given(:other_user) { create(:user) }
   given(:question) { create(:question, user: user) }
+  given(:image) { fixture_file_upload("#{Rails.root}/spec/fixtures/images/reward.png", 'image/png') }
+  given!(:reward) { create(:reward, question: question, name: 'reward name', image: image) }
   given!(:answers) { create_list(:answer, 3, user: other_user, question: question) }
   given!(:answer_first) { answers.first }
   given!(:answer_last) { answers.last }
@@ -55,6 +57,18 @@ feature 'User can choose best answer', "
       sign_in(other_user)
 
       expect(page).to_not have_link 'Best'
+    end
+
+    scenario 'gets a reward', js: true do
+      within "#answer-#{answer_last.id}" do
+        click_on 'Best'
+      end
+
+      visit user_rewards_path(answer_last.user)
+
+      expect(page).to have_content question.title
+      expect(page).to have_content reward.name
+      expect(page).to have_css "img[src*='#{reward.image.filename}']"
     end
   end
 end

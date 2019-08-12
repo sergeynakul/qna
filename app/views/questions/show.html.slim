@@ -1,12 +1,15 @@
-p= @question.title
+h1= @question.title
 p= @question.body
 - if @question.files.attached?
   - @question.files.each do |file|
     p= link_to file.filename.to_s, url_for(file)
-- if current_user&.author?(@question)
-  p= link_to 'Delete question', @question, method: :delete
+    
+- if @question.links.present?
+  .links
+    = render 'shared/links', resource: @question
 
 .answers
+  h3 Answers
   = render @question.answers
 
 .answer-errors

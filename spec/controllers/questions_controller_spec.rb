@@ -3,14 +3,35 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create :user }
   let(:other_user) { create(:user) }
+  let(:question) { create :question }
 
   before { login(user) }
+
+  describe 'GET #show' do
+    before { get :show, params: { id: question } }
+
+    it 'assigns a new answer in @answer' do
+      expect(assigns(:answer)).to be_a_new(Answer)
+    end
+
+    it 'assigns a new link in @link' do
+      expect(assigns(:answer).links.first).to be_a_new(Link)
+    end
+  end
 
   describe 'GET #new' do
     before { get :new }
 
     it 'assigns a new question in @question' do
       expect(assigns(:question)).to be_a_new(Question)
+    end
+
+    it 'assigns a new link in @link' do
+      expect(assigns(:question).links.first).to be_a_new(Link)
+    end
+
+    it 'assigns a new reward in @reward' do
+      expect(assigns(:question).reward).to be_a_new(Reward)
     end
 
     it 'renders new' do
