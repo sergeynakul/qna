@@ -13,6 +13,12 @@ div.answer id="answer-#{answer.id}"
   - if current_user&.author?(answer)
     p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
     p= link_to 'Delete answer', answer, method: :delete, remote: true
+    
+  .votes
+    - if current_user && !current_user.author?(answer)
+      = link_to 'Vote up', vote_up_answer_path(answer), class: '.vote-up', method: :post, remote: true
+      = link_to 'Vote down', vote_down_answer_path(answer), class: '.vote-down', method: :post, remote: true
+    .votes-count = answer.rating
 
 = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
   = f.label :body, 'Your answer'
