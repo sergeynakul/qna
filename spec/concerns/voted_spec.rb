@@ -84,7 +84,7 @@ RSpec.shared_examples 'voted controller' do
         end
 
         it "can't vote twice" do
-          2.times { post :vote_up, params: { id: voteable }, format: :json }
+          2.times { post :vote_down, params: { id: voteable }, format: :json }
           json_response = JSON.parse(response.body)
 
           expect(response.status).to eq 422
@@ -111,11 +111,11 @@ RSpec.shared_examples 'voted controller' do
       before { logout(user) }
 
       it "can't vote" do
-        expect { post :vote_up, params: { id: voteable }, format: :json }.to_not change(voteable.votes, :count)
+        expect { post :vote_down, params: { id: voteable }, format: :json }.to_not change(voteable.votes, :count)
       end
 
       it '401 status' do
-        post :vote_up, params: { id: voteable }, format: :json
+        post :vote_down, params: { id: voteable }, format: :json
 
         expect(response).to have_http_status(401)
       end

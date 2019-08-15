@@ -29,6 +29,12 @@ RSpec.describe Vote, type: :model do
       let(:votable) { create(:answer, user: user) }
 
       it { expect { described_class.vote_up(user, votable).save }.to_not change(votable, :rating) }
+
+      it 'have error message' do
+        vote = described_class.vote_up(user, votable)
+        vote.valid?
+        expect(vote.errors[:user]).to include("Author can't vote")
+      end
     end
   end
 
@@ -36,7 +42,7 @@ RSpec.describe Vote, type: :model do
     let(:user) { create(:user) }
     let(:votable) { create(:answer) }
 
-    it { expect(described_class.vote_up(user, votable)).to be_an_instance_of(Vote) }
+    it { expect(described_class.vote_down(user, votable)).to be_an_instance_of(Vote) }
 
     it 'return nil if revote' do
       create(:vote, user: user, votable: votable, value: 1)
@@ -44,9 +50,7 @@ RSpec.describe Vote, type: :model do
     end
 
     context 'someone elses votable' do
-      it do
-        expect { described_class.vote_down(user, votable).save }.to change(votable, :rating).by(-1)
-      end
+      it { expect { described_class.vote_down(user, votable).save }.to change(votable, :rating).by(-1) }
 
       it 'already have vote down' do
         create(:vote, user: create(:user), votable: votable, value: 1)
@@ -58,6 +62,7 @@ RSpec.describe Vote, type: :model do
       let(:votable) { create(:answer, user: user) }
 
       it { expect { described_class.vote_down(user, votable).save }.to_not change(votable, :rating) }
+
       it 'have error message' do
         vote = described_class.vote_down(user, votable)
         vote.valid?
