@@ -8,8 +8,15 @@ Rails.application.routes.draw do
     resources :rewards, only: %i[index]
   end
 
-  resources :questions, shallow: true do
-    resources :answers do
+  concern :votable do
+    member do
+      post :vote_up
+      post :vote_down
+    end
+  end
+
+  resources :questions, shallow: true, concerns: :votable do
+    resources :answers, concerns: :votable do
       patch :best, on: :member
     end
   end
