@@ -13,11 +13,7 @@ div id="question-#{question.id}"
     p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
     p= link_to 'Delete', question, method: :delete, remote: true
 
-  .votes
-    - if current_user && !current_user.author?(question)
-      = link_to 'Vote up', vote_up_question_path(question), class: '.vote-up', method: :post, remote: true
-      = link_to 'Vote down', vote_down_question_path(question), class: '.vote-down', method: :post, remote: true
-    .votes-count = question.rating
+  = render 'shared/votes', resource: question
 
 = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
   = f.label :title

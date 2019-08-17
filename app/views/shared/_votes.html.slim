@@ -1,0 +1,5 @@
+.votes
+  - if current_user && !current_user.author?(resource)
+    = link_to 'Vote up', polymorphic_url([:vote_up, resource]), class: '.vote-up', method: :post, remote: true
+    = link_to 'Vote down', polymorphic_url([:vote_down, resource]), class: '.vote-down', method: :post, remote: true
+  .votes-count = resource.rating

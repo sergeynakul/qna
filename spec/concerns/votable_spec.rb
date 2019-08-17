@@ -14,4 +14,40 @@ RSpec.shared_examples 'votable model' do
 
     it { expect(votable.rating).to eq 7 }
   end
+
+  describe '#vote_up' do
+    it { expect(votable.vote_up(user)).to be_an_instance_of(Vote) }
+
+    it 'return nil if revote' do
+      create(:vote, user: user, votable: votable, value: -1)
+      expect(votable.vote_up(user)).to be_nil
+    end
+
+    context 'someone elses votable' do
+      it { expect { votable.vote_up(user).save }.to change(votable, :rating).by(1) }
+
+      it 'already have vote' do
+        create(:vote, user: create(:user), votable: votable, value: 1)
+        expect { votable.vote_up(user).save }.to change(votable, :rating).by(1)
+      end
+    end
+  end
+
+  describe '#vote_down' do
+    it { expect(votable.vote_down(user)).to be_an_instance_of(Vote) }
+
+    it 'return nil if revote' do
+      create(:vote, user: user, votable: votable, value: 1)
+      expect(votable.vote_down(user)).to be_nil
+    end
+
+    context 'someone elses votable' do
+      it { expect { votable.vote_down(user).save }.to change(votable, :rating).by(-1) }
+
+      it 'already have vote down' do
+        create(:vote, user: create(:user), votable: votable, value: 1)
+        expect { votable.vote_down(user).save }.to change(votable, :rating).by(-1)
+      end
+    end
+  end
 end
