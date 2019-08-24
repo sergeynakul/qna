@@ -41,9 +41,11 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'cocoon'
 gem 'devise'
 gem 'dotenv-rails', groups: %i[development test]
+gem 'gon'
 gem 'jquery-rails'
 gem 'octokit', '~> 4.0'
 gem 'rubocop', require: false
+gem 'skim'
 gem 'slim-rails'
 gem 'validate_url'
 

@@ -1,0 +1,21 @@
+div.answer id="answer-#{@answer.id}"
+  p #{@answer.body}
+  - if @files.length
+    - @files.forEach (file)->
+      .file id="file-#{file.id}"
+        a href="#{file.url}" #{file.name}
+
+  - if @links.length
+    .links
+      p Links:
+      ul
+        - @links.forEach (link)->
+          li id="link-#{link.id}"
+            a href="#{{link.url}}"
+              == link.name
+
+  .votes
+    - if current_user.id && !current_user.author_of(@answer)
+      a.vote-up href="/answers/#{@answer.id}/vote_up" data-method='post' data-remote='true' Vote up
+      a.vote-down href="/answers/#{@answer.id}/vote_down" data-method='post' data-remote='true' Vote down
+    .votes-count 0

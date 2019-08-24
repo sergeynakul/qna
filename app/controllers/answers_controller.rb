@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: :create
   before_action :set_answer, only: %i[update destroy best]
+  after_action :publish_answer, only: :create
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -33,6 +34,17 @@ class AnswersController < ApplicationController
 
   def set_answer
     @answer = Answer.with_attached_files.find(params[:id])
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    AnswersChannel.broadcast_to(
+      @answer.question,
+      answer: @answer,
+      links: @answer.links,
+      files: @answer.files.map { |file| { id: file.id, name: file.filename.to_s, url: url_for(file) } }
+    )
   end
 
   def answer_params

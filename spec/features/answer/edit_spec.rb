@@ -22,7 +22,9 @@ feature 'User can edit answer', "
       sign_in(user)
       visit question_path(question)
 
-      click_on 'Edit'
+      within '.answers' do
+        click_on 'Edit'
+      end
     end
 
     scenario 'edits his answer' do
