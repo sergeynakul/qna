@@ -62,6 +62,7 @@ feature 'User can choose best answer', "
     scenario 'gets a reward', js: true do
       within "#answer-#{answer_last.id}" do
         click_on 'Best'
+        sleep(0.5)
       end
 
       visit user_rewards_path(answer_last.user)

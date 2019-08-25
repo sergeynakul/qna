@@ -15,12 +15,12 @@ div id="question-#{question.id}"
 
   = render 'shared/votes', resource: question
 
-= form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.label :files
-  = f.file_field :files, multiple: true, direct_upload: true
-  = render 'shared/links_form', f: f
-  = f.submit 'Ask'
+  = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
+    = f.label :title
+    = f.text_field :title
+    = f.label :body
+    = f.text_area :body
+    = f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
+    = render 'shared/links_form', f: f
+    = f.submit 'Ask'

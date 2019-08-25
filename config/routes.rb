@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'rewards/index'
-  get 'attachments/destroy'
   devise_for :users
   root to: 'questions#index'
 
@@ -16,6 +14,7 @@ Rails.application.routes.draw do
   end
 
   resources :questions, shallow: true, concerns: :votable do
+    resources :comments, only: %i[create]
     resources :answers, concerns: :votable do
       patch :best, on: :member
     end
