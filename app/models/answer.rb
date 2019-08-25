@@ -6,6 +6,7 @@ class Answer < ApplicationRecord
   has_many_attached :files
   has_many :links, dependent: :destroy, as: :linkable
   has_one :reward
+  has_many :comments, dependent: :destroy, as: :commentable
 
   validates :body, presence: true
 

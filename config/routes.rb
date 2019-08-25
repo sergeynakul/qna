@@ -15,7 +15,8 @@ Rails.application.routes.draw do
 
   resources :questions, shallow: true, concerns: :votable do
     resources :comments, only: %i[create]
-    resources :answers, concerns: :votable do
+    resources :answers, shallow: true, concerns: :votable do
+      resources :comments, only: %i[create]
       patch :best, on: :member
     end
   end

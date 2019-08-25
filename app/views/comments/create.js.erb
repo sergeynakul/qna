@@ -1,7 +1,8 @@
 $('.notice').html('<%= notice %>');
-$('.question-comment-errors').html('<%= render 'shared/errors', resource: @comment %>');
+<% resource = @comment.commentable.class.to_s.downcase %>
+$('.<%= resource %>-comment-errors').html('<%= render 'shared/errors', resource: @comment %>');
 
 <% if @comment.persisted? %>
-$('.question-comments').append('<%= j render @comment %>');
-$('#comment_body').val('');
+$('.<%= resource %>-comments').append('<%= j render @comment %>');
+$('.<%= resource %> #comment_body').val('');
 <% end %>
