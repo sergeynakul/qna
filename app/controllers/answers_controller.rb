@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: :create
   before_action :set_answer, only: %i[update destroy best]
+  before_action :new_comment, only: %i[update create best]
   after_action :publish_answer, only: :create
 
   def create
@@ -34,6 +35,10 @@ class AnswersController < ApplicationController
 
   def set_answer
     @answer = Answer.with_attached_files.find(params[:id])
+  end
+
+  def new_comment
+    @comment = Comment.new
   end
 
   def publish_answer

@@ -3,6 +3,6 @@ $('.notice').html('<%= notice %>');
 $('.<%= resource %>-comment-errors').html('<%= render 'shared/errors', resource: @comment %>');
 
 <% if @comment.persisted? %>
-$('.<%= resource %>-comments').append('<%= j render @comment %>');
+$('.<%= resource %>-comments-<%= @comment.commentable.id %>').append('<%= j render @comment %>');
 $('.<%= resource %> #comment_body').val('');
 <% end %>

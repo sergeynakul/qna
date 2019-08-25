@@ -24,16 +24,4 @@ div.answer id="answer-#{answer.id}"
     = render 'shared/links_form', f: f
     = f.submit 'Save'
 
-  .answer-comments
-    - if answer.comments.present?
-      p Comments for answer:
-      - answer.comments.each do |comment|
-        p= comment.body
-
-  p Add comment for answer
-  .answer-comment-errors
-    = render 'shared/errors', resource: @comment
-  = form_with model: [answer, @comment] do |f|
-    = f.label :body, 'Your comment'
-    = f.text_area :body
-    = f.submit 'Create comment'
+  = render 'shared/comments', parent: answer

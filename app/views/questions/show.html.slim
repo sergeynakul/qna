@@ -1,19 +1,7 @@
 .question data-question-id="#{@question.id}"
   = render 'question', question: @question
 
-  .question-comments
-    - if @question.comments.present?
-      p Comments for question:
-      - @question.comments.each do |comment|
-        p= comment.body
-
-  p Add comment for question
-  .question-comment-errors
-    = render 'shared/errors', resource: @comment
-  = form_with model: [@question, @comment] do |f|
-    = f.label :body, 'Your comment'
-    = f.text_area :body
-    = f.submit 'Create comment'
+  = render 'shared/comments', parent: @question
 
 .answers
   h3 Answers
