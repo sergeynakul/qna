@@ -16,10 +16,12 @@ div.answer id="answer-#{answer.id}"
     
   = render 'shared/votes', resource: answer
 
-= form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-  = f.label :body, 'Your answer'
-  = f.text_area :body
-  = f.label :files
-  = f.file_field :files, multiple: true, direct_upload: true
-  = render 'shared/links_form', f: f
-  = f.submit 'Save'
+  = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+    = f.label :body, 'Your answer'
+    = f.text_area :body
+    = f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
+    = render 'shared/links_form', f: f
+    = f.submit 'Save'
+
+  = render 'shared/comments', parent: answer

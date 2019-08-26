@@ -1,12 +1,7 @@
-h1= @question.title
-p= @question.body
-- if @question.files.attached?
-  - @question.files.each do |file|
-    p= link_to file.filename.to_s, url_for(file)
-    
-- if @question.links.present?
-  .links
-    = render 'shared/links', resource: @question
+.question data-question-id="#{@question.id}"
+  = render 'question', question: @question
+
+  = render 'shared/comments', parent: @question
 
 .answers
   h3 Answers

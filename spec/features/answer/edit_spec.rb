@@ -22,7 +22,9 @@ feature 'User can edit answer', "
       sign_in(user)
       visit question_path(question)
 
-      click_on 'Edit'
+      within '.answers' do
+        click_on 'Edit'
+      end
     end
 
     scenario 'edits his answer' do
@@ -32,7 +34,6 @@ feature 'User can edit answer', "
 
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'edited body'
-        expect(page).to_not have_selector 'textarea'
       end
     end
 

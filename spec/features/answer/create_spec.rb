@@ -42,10 +42,40 @@ feature 'User can create answer', "
     end
   end
 
+  describe 'multiple session', js: true do
+    scenario "answer appears on another user's page" do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Body', with: 'Test answer body'
+        click_on 'Create answer'
+
+        within '.answers' do
+          expect(page).to have_content 'Test answer body'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within '.answers' do
+          expect(page).to have_content 'Test answer body'
+        end
+      end
+    end
+  end
+
   scenario 'Unauthenticated user tries to create answer' do
     visit question_path(question)
-    fill_in 'Body', with: 'Test answer body'
-    click_on 'Create answer'
+    within '.new-answer' do
+      fill_in 'Body', with: 'Test answer body'
+      click_on 'Create answer'
+    end
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end

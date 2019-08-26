@@ -1,0 +1,13 @@
+div[class="#{parent.class.to_s.downcase}-comments-#{parent.id}"]
+  - if parent.comments.present?
+    p Comments for question:
+    - parent.comments.each do |comment|
+      p= comment.body
+
+p Add comment for question
+div[class="#{parent.class.to_s.downcase}-comment-errors"]
+  = render 'shared/errors', resource: @comment
+= form_with model: [parent, @comment] do |f|
+  = f.label :body, 'Your comment'
+  = f.text_area :body
+  = f.submit 'Create comment'
