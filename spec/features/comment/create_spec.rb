@@ -60,4 +60,58 @@ feature 'User can create comment', "
       end
     end
   end
+
+  describe 'multiple session', js: true do
+    scenario "comment for question appears on another user's page" do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        within '.question' do
+          fill_in 'Your comment', with: 'Test comment for question'
+          click_on 'Create comment'
+
+          expect(page).to have_content 'Test comment for question'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within '.question' do
+          expect(page).to have_content 'Test comment for question'
+        end
+      end
+    end
+
+    scenario "comment for answer appears on another user's page" do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        within "#answer-#{answer.id}" do
+          fill_in 'Your comment', with: 'Comment for answer'
+          click_on 'Create comment'
+
+          expect(page).to have_content 'Comment for answer'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within "#answer-#{answer.id}" do
+          expect(page).to have_content 'Comment for answer'
+        end
+      end
+    end
+  end
 end

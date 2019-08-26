@@ -1,4 +1,4 @@
-$ ->
+$(document).on 'turbolinks:load', ->
   questions = $(".questions")
 
   App.cable.subscriptions.create('QuestionsChannel', {
