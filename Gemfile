@@ -45,6 +45,8 @@ gem 'gon'
 gem 'jquery-rails'
 gem 'nokogiri', '>= 1.10.4'
 gem 'octokit', '~> 4.0'
+gem 'omniauth'
+gem 'omniauth-github'
 gem 'rubocop', require: false
 gem 'skim'
 gem 'slim-rails'
