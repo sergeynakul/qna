@@ -8,4 +8,11 @@ module OmniauthHelpers
       }
     )
   end
+
+  def mock_auth_hash_without_mail
+    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(
+      'provider' => 'instagram',
+      'uid' => '123545'
+    )
+  end
 end

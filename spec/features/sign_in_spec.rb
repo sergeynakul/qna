@@ -28,17 +28,30 @@ feature 'User can sign in', "
   scenario 'User can sign in with Github' do
     mock_auth_hash
     click_on 'Sign in with GitHub'
-
     open_email('mockuser@mail.com')
-
     expect(current_email).to have_content 'Welcome mockuser@mail.com!'
 
     current_email.click_link 'Confirm my account'
-
     expect(page).to have_content 'Your email address has been successfully confirmed.'
 
     click_on 'Sign in with GitHub'
-
     expect(page).to have_content 'Successfully authenticated from Github account.'
+  end
+
+  scenario 'User can sign in with Instagram' do
+    mock_auth_hash_without_mail
+    click_on 'Sign in with Instagram'
+    expect(page).to have_content 'Add your email'
+
+    fill_in 'auth_hash[info][email]', with: 'instagram@mail.com'
+    click_on 'Add'
+    open_email('instagram@mail.com')
+    expect(current_email).to have_content 'Welcome instagram@mail.com'
+
+    current_email.click_link 'Confirm my account'
+    expect(page).to have_content 'Your email address has been successfully confirmed.'
+
+    click_on 'Sign in with Instagram'
+    expect(page).to have_content 'Successfully authenticated from Instagram account.'
   end
 end
