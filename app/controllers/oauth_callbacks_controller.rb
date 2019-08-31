@@ -8,4 +8,8 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
       redirect_to root_path, alert: 'Something went wrong'
     end
   end
+
+  def instagram
+    render json: request.env['omniauth.auth']
+  end
 end

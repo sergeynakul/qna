@@ -29,6 +29,16 @@ feature 'User can sign in', "
     mock_auth_hash
     click_on 'Sign in with GitHub'
 
+    open_email('mockuser@mail.com')
+
+    expect(current_email).to have_content 'Welcome mockuser@mail.com!'
+
+    current_email.click_link 'Confirm my account'
+
+    expect(page).to have_content 'Your email address has been successfully confirmed.'
+
+    click_on 'Sign in with GitHub'
+
     expect(page).to have_content 'Successfully authenticated from Github account.'
   end
 end
