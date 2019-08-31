@@ -1,36 +1,28 @@
 class OauthCallbacksController < Devise::OmniauthCallbacksController
-  def github
-    @user = User.find_for_oauth(request.env['omniauth.auth'])
-    if @user&.persisted?
-      sign_in_and_redirect @user, event: :authentication
-      set_flash_message(:notice, :success, kind: 'Github') if is_navigational_format?
-    else
-      redirect_to root_path, alert: 'Something went wrong'
-    end
-  end
+  before_action :sign_in_or_registration
 
-  def instagram
-    auth = request.env['omniauth.auth']
+  def github; end
+
+  def instagram; end
+
+  def insta_reg; end
+
+  private
+
+  def sign_in_or_registration
     @user = User.find_for_oauth(auth)
-    session[:provider] = auth.provider if auth
-    session[:uid] = auth.uid if auth
+    session[:provider] = auth.provider
+    session[:uid] = auth.uid
 
     if @user&.persisted?
       sign_in_and_redirect @user, event: :authentication
-      set_flash_message(:notice, :success, kind: 'Instagram') if is_navigational_format?
+      set_flash_message(:notice, :success, kind: auth.provider) if is_navigational_format?
     else
       render 'oauth_callbacks/add_email'
     end
   end
 
-  def insta_reg
-    auth = OmniAuth::AuthHash.new(params['auth_hash']).merge(provider: session[:provider], uid: session[:uid])
-    @user = User.find_for_oauth(auth)
-    if @user&.persisted?
-      sign_in_and_redirect @user, event: :authentication
-      set_flash_message(:notice, :success, kind: 'Instagram') if is_navigational_format?
-    else
-      redirect_to root_path, alert: 'Something went wrong'
-    end
+  def auth
+    request.env['omniauth.auth'] || OmniAuth::AuthHash.new(params['auth_hash']).merge(provider: session[:provider], uid: session[:uid])
   end
 end

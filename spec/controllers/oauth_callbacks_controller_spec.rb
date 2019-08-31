@@ -6,7 +6,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
   end
 
   describe 'Github' do
-    let(:oauth_data) { { 'provider' => 'facebook', 'uid' => 123 } }
+    let(:oauth_data) { OmniAuth::AuthHash.new('provider' => 'github', 'uid' => '123') }
 
     it 'find user from oauth data' do
       allow(request.env).to receive(:[]).and_call_original
@@ -38,8 +38,8 @@ RSpec.describe OauthCallbacksController, type: :controller do
         get :github
       end
 
-      it 'redirects to root path' do
-        expect(response).to redirect_to root_path
+      it 'status 200 OK' do
+        expect(response).to have_http_status(200)
       end
 
       it 'does not login user' do
