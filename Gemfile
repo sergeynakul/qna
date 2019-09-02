@@ -38,6 +38,7 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'aws-sdk-s3'
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'capybara-email'
 gem 'cocoon'
 gem 'devise'
 gem 'dotenv-rails', groups: %i[development test]
@@ -45,6 +46,9 @@ gem 'gon'
 gem 'jquery-rails'
 gem 'nokogiri', '>= 1.10.4'
 gem 'octokit', '~> 4.0'
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-instagram'
 gem 'rubocop', require: false
 gem 'skim'
 gem 'slim-rails'
@@ -54,6 +58,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
+  gem 'letter_opener'
   gem 'rspec-rails', '~> 3.8'
 end
 

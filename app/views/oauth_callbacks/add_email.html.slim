@@ -1,0 +1,6 @@
+h1 Add your email
+= form_tag insta_reg_path, method: :post do
+  p= label_tag 'Email'
+  p= text_field_tag 'auth_hash[info][email]'
+
+  p= submit_tag 'Add'

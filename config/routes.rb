@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
+
+  devise_scope :user do
+    post '/insta_reg' => 'oauth_callbacks#insta_reg'
+  end
+
   root to: 'questions#index'
 
   resources :users do
