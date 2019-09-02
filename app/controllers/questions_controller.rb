@@ -6,6 +6,8 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: %i[show update destroy]
   after_action :publish_question, only: :create
 
+  authorize_resource
+
   def index; end
 
   def show
