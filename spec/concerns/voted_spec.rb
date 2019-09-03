@@ -39,12 +39,10 @@ RSpec.shared_examples 'voted controller' do
           expect { post :vote_up, params: { id: owned_voteable }, format: :json }.to_not change(owned_voteable.votes, :count)
         end
 
-        it 'render json' do
+        it 'status 302' do
           post :vote_up, params: { id: owned_voteable }, format: :json
-          json_response = JSON.parse(response.body)
 
-          expect(response.status).to eq 422
-          expect(json_response['user']).to eq ["Author can't vote"]
+          expect(response.status).to eq 302
         end
       end
     end
@@ -99,10 +97,8 @@ RSpec.shared_examples 'voted controller' do
 
         it 'render json' do
           post :vote_down, params: { id: owned_voteable }, format: :json
-          json_response = JSON.parse(response.body)
 
-          expect(response.status).to eq 422
-          expect(json_response['user']).to eq ["Author can't vote"]
+          expect(response.status).to eq 302
         end
       end
     end

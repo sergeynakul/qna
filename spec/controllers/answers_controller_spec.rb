@@ -59,9 +59,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 'renders template destroy' do
+      it 'status 302' do
         delete :destroy, params: { id: answer }, format: :js
-        expect(response).to render_template :destroy
+        expect(response.status).to eq 302
       end
     end
   end
@@ -117,9 +117,9 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.reload).to_not be_best
       end
 
-      it 'renders template best' do
+      it 'status 302' do
         patch :best, params: { id: answer }, format: :js
-        expect(response).to render_template :best
+        expect(response.status).to eq 302
       end
     end
   end

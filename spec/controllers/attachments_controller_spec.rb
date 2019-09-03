@@ -30,10 +30,10 @@ RSpec.describe AttachmentsController, type: :controller do
           expect { delete :destroy, params: { id: resource.files.first }, format: :js }.to_not change(resource.files, :count)
         end
 
-        it 'should render destroy' do
+        it 'status 302' do
           delete :destroy, params: { id: resource.files.first }, format: :js
 
-          expect(response).to render_template :destroy
+          expect(response.status).to eq 302
         end
       end
     end

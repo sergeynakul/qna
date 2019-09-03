@@ -6,9 +6,12 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: %i[show update destroy]
   after_action :publish_question, only: :create
 
-  def index; end
+  def index
+    authorize! :read, Question
+  end
 
   def show
+    authorize! :read, @question
     @answer = Answer.new
     @comment = Comment.new
     @answer.links.new
@@ -16,12 +19,14 @@ class QuestionsController < ApplicationController
   end
 
   def new
+    authorize! :create, Question
     @question = Question.new
     @question.links.new
     @question.build_reward
   end
 
   def create
+    authorize! :create, Question
     @question = current_user.questions.new(question_params)
     if @question.save
       redirect_to @question, notice: 'Question successfully created.'
@@ -31,10 +36,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
+    authorize! :update, @question
     @question.update(question_params) if current_user.author?(@question)
   end
 
   def destroy
+    authorize! :destroy, @question
     @question.destroy if current_user.author?(@question)
   end
 
