@@ -11,11 +11,11 @@ class Ability
     if user
       user.admin? ? admin_abilities : user_abilities
     else
-      guest_abiliries
+      guest_abilities
     end
   end
 
-  def guest_abiliries
+  def guest_abilities
     can :read, :all
   end
 
@@ -24,8 +24,14 @@ class Ability
   end
 
   def user_abilities
-    guest_abiliries
+    guest_abilities
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer], user_id: user.id
+    can :destroy, [Question, Answer], user_id: user.id
+    can :best, Answer, question: { user_id: user.id }
+    can :destroy, ActiveStorage::Attachment, record: { user_id: user.id }
+    can :index, Reward
+    can %i[vote_up vote_down], [Question, Answer]
+    cannot %i[vote_up vote_down], [Question, Answer], user_id: user.id
   end
 end

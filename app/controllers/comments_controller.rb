@@ -2,9 +2,8 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   after_action :publish_comment, only: :create
 
-  authorize_resource
-
   def create
+    authorize! :create, Comment
     @resource = params[:question_id] ? Question.find(params[:question_id]) : Answer.find(params[:answer_id]) # test
     @comment = @resource.comments.new(comment_params)
     @comment.user = current_user

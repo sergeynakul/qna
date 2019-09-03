@@ -141,9 +141,9 @@ RSpec.describe QuestionsController, type: :controller do
         expect { delete :destroy, params: { id: question }, format: :js }.to_not change(Question, :count)
       end
 
-      it 'renders template destroy' do
+      it 'status 302' do
         delete :destroy, params: { id: question }, format: :js
-        expect(response).to render_template :destroy
+        expect(response.status).to eq 302
       end
     end
   end

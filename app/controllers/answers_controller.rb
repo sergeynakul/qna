@@ -7,24 +7,26 @@ class AnswersController < ApplicationController
   before_action :new_comment, only: %i[update create best]
   after_action :publish_answer, only: :create
 
-  authorize_resource
-
   def create
+    authorize! :create, Answer
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     flash[:notice] = 'Answer successfully created.' if @answer.save
   end
 
   def update
+    authorize! :update, @answer
     @answer.update(answer_params) if current_user.author?(@answer)
     @question = @answer.question
   end
 
   def destroy
+    authorize! :destroy, @answer
     @answer.destroy if current_user.author?(@answer)
   end
 
   def best
+    authorize! :best, @answer
     @question = @answer.question
     @answer.best! if current_user.author?(@question)
   end
