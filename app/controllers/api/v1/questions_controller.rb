@@ -1,4 +1,6 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
+  before_action :set_question, except: %i[index create]
+
   def index
     authorize! :read, Question
     @questions = Question.all
@@ -6,7 +8,6 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def show
-    @question = Question.with_attached_files.find(params[:id])
     authorize! :read, @question
     render json: @question
   end
@@ -14,10 +15,24 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   def create
     authorize! :create, Question
     @question = current_resource_owner.questions.new(question_params)
-    @question.save ? head(201) : head(422)
+    @question.save ? head(:ok) : head(422)
+  end
+
+  def update
+    authorize! :update, @question
+    @question.update(question_params) ? head(:ok) : head(422)
+  end
+
+  def destroy
+    authorize! :destroy, @question
+    @question.destroy
   end
 
   private
+
+  def set_question
+    @question = Question.with_attached_files.find(params[:id])
+  end
 
   def question_params
     params.require(:question).permit(:title, :body)
