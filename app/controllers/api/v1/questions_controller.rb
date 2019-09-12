@@ -15,17 +15,26 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   def create
     authorize! :create, Question
     @question = current_resource_owner.questions.new(question_params)
-    @question.save ? head(:ok) : head(422)
+    if @question.save
+      render json: @question, status: :ok
+    else
+      render json: { errors: @question.errors }, status: :unprocessable_entity
+    end
   end
 
   def update
     authorize! :update, @question
-    @question.update(question_params) ? head(:ok) : head(422)
+    if @question.update(question_params)
+      render json: @question, status: :ok
+    else
+      render json: { errors: @question.errors }, status: :unprocessable_entity
+    end
   end
 
   def destroy
     authorize! :destroy, @question
     @question.destroy
+    render json: @question, status: :ok
   end
 
   private

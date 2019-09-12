@@ -11,17 +11,26 @@ class Api::V1::AnswersController < Api::V1::BaseController
     @question = Question.find(params[:question_id])
     @answer = @question.answers.new(answer_params)
     @answer.user = current_resource_owner
-    @answer.save ? head(:ok) : head(422)
+    if @answer.save
+      render json: @answer, status: :ok
+    else
+      render json: { errors: @answer.errors }, status: :unprocessable_entity
+    end
   end
 
   def update
     authorize! :update, @answer
-    @answer.update(answer_params) ? head(:ok) : head(422)
+    if @answer.update(answer_params)
+      render json: @answer, status: :ok
+    else
+      render json: { errors: @answer.errors }, status: :unprocessable_entity
+    end
   end
 
   def destroy
     authorize! :destroy, @answer
     @answer.destroy
+    render json: @answer, status: :ok
   end
 
   private

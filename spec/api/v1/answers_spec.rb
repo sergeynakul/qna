@@ -62,6 +62,7 @@ RSpec.describe 'Answers API', type: :request do
         answer.reload
 
         expect(answer.body).to eq valid_params[:answer][:body]
+        expect(response).to be_successful
       end
 
       it 'with invalid params do not update the answer' do
@@ -70,6 +71,7 @@ RSpec.describe 'Answers API', type: :request do
         answer.reload
 
         expect(answer.body).to_not eq invalid_params[:answer][:body]
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end

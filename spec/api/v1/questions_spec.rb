@@ -117,6 +117,7 @@ RSpec.describe 'Questions API', type: :request do
         %i[title body].each do |attr|
           expect(question.send(attr)).to eq valid_params[:question][attr]
         end
+        expect(response).to be_successful
       end
 
       it 'with invalid params do not update the question' do
@@ -127,6 +128,7 @@ RSpec.describe 'Questions API', type: :request do
         %i[title body].each do |attr|
           expect(question.send(attr)).to_not eq invalid_params[:question][attr]
         end
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
