@@ -8,10 +8,13 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 
 Metrics/BlockLength:
-  Max: 115
+  Max: 150
 
 Metrics/AbcSize:
-  Max: 25
+  Max: 35
 
 Metrics/MethodLength:
-  Max: 20
+  Max: 45
+
+Style/ClassAndModuleChildren:
+  Enabled: false
