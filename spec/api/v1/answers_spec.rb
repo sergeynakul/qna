@@ -42,7 +42,7 @@ RSpec.describe 'Answers API', type: :request do
     let(:method) { :post }
 
     it_behaves_like 'API Authorizable'
-
+    it_behaves_like 'API Validatable'
     it_behaves_like 'API create resource' do
       let(:resource) { Answer }
     end
@@ -56,13 +56,14 @@ RSpec.describe 'Answers API', type: :request do
     it_behaves_like 'API Authorizable'
 
     context 'authorized' do
+      it_behaves_like 'API Validatable'
+
       it 'with valid params update the answer' do
         put api_path, params: valid_params, headers: headers
 
         answer.reload
 
         expect(answer.body).to eq valid_params[:answer][:body]
-        expect(response).to be_successful
       end
 
       it 'with invalid params do not update the answer' do
@@ -71,7 +72,6 @@ RSpec.describe 'Answers API', type: :request do
         answer.reload
 
         expect(answer.body).to_not eq invalid_params[:answer][:body]
-        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end

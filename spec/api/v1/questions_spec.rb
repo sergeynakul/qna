@@ -95,7 +95,7 @@ RSpec.describe 'Questions API', type: :request do
     let(:method) { :post }
 
     it_behaves_like 'API Authorizable'
-
+    it_behaves_like 'API Validatable'
     it_behaves_like 'API create resource' do
       let(:resource) { Question }
     end
@@ -109,6 +109,8 @@ RSpec.describe 'Questions API', type: :request do
     it_behaves_like 'API Authorizable'
 
     context 'authorized' do
+      it_behaves_like 'API Validatable'
+
       it 'with valid params update the question' do
         put api_path, params: valid_params, headers: headers
 
@@ -117,7 +119,6 @@ RSpec.describe 'Questions API', type: :request do
         %i[title body].each do |attr|
           expect(question.send(attr)).to eq valid_params[:question][attr]
         end
-        expect(response).to be_successful
       end
 
       it 'with invalid params do not update the question' do
@@ -128,7 +129,6 @@ RSpec.describe 'Questions API', type: :request do
         %i[title body].each do |attr|
           expect(question.send(attr)).to_not eq invalid_params[:question][attr]
         end
-        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
