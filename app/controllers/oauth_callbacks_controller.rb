@@ -11,8 +11,8 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
 
   def sign_in_or_registration
     @user = User.find_for_oauth(auth)
-    session[:provider] = auth.provider
-    session[:uid] = auth.uid
+    session['devise.oauth_provider'] = auth.provider
+    session['devise.oauth_uid'] = auth.uid
 
     if @user&.persisted?
       sign_in_and_redirect @user, event: :authentication
@@ -23,6 +23,6 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def auth
-    request.env['omniauth.auth'] || OmniAuth::AuthHash.new(params['auth_hash']).merge(provider: session[:provider], uid: session[:uid])
+    request.env['omniauth.auth'] || OmniAuth::AuthHash.new(params['auth_hash']).merge(provider: session['devise.oauth_provider'], uid: session['devise.oauth_uid'])
   end
 end

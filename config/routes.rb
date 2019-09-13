@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
   devise_scope :user do
@@ -9,6 +10,18 @@ Rails.application.routes.draw do
 
   resources :users do
     resources :rewards, only: %i[index]
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: [:index] do
+        get :me, on: :collection
+      end
+
+      resources :questions, shallow: true do
+        resources :answers
+      end
+    end
   end
 
   concern :votable do
