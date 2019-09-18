@@ -54,9 +54,12 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-instagram'
 gem 'rubocop', require: false
+gem 'sidekiq'
+gem 'sinatra', require: false
 gem 'skim'
 gem 'slim-rails'
 gem 'validate_url'
+gem 'whenever', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
