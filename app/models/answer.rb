@@ -14,11 +14,19 @@ class Answer < ApplicationRecord
 
   default_scope { order(best: :desc) }
 
+  after_create :subscribe_job
+
   def best!
     transaction do
       Answer.where(question_id: question_id, best: true).update_all(best: false)
       update!(best: true)
       update!(reward: question.reward) if question.reward
     end
+  end
+
+  private
+
+  def subscribe_job
+    AnswerNotificationJob.perform_later(self)
   end
 end

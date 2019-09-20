@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :votes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscribers, dependent: :destroy
 
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable,
@@ -20,5 +21,9 @@ class User < ApplicationRecord
 
   def create_authorization(auth)
     authorizations.create(provider: auth.provider, uid: auth.uid.to_s)
+  end
+
+  def subscribed_for?(question)
+    question.subscribers.exists?(user: self)
   end
 end

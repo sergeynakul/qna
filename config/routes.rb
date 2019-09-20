@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       resources :comments, only: %i[create]
       patch :best, on: :member
     end
+    resources :subscribers, shallow: true, only: %i[create destroy]
   end
 
   resources :attachments, only: :destroy

@@ -1,6 +1,9 @@
 div id="question-#{question.id}"
   p= link_to question.title, question
   p= question.body
+  - if can? :create, Subscriber
+    div id="subscription-#{question.id}"
+      = render 'subscribers/subscribe', question: question
   - if question.files.attached?
     - question.files.each do |file|
       .file id="file-#{file.id}"
