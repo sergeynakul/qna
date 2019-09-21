@@ -1,0 +1,3 @@
+p Comment
+p= result.body
+p= link_to 'Open question', result.commentable.is_a?(Question) ? result.commentable : result.commentable.question

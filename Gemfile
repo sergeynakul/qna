@@ -47,6 +47,7 @@ gem 'doorkeeper'
 gem 'dotenv-rails', groups: %i[development test]
 gem 'gon'
 gem 'jquery-rails'
+gem 'mysql2'
 gem 'nokogiri', '>= 1.10.4'
 gem 'octokit', '~> 4.0'
 gem 'oj'
@@ -58,6 +59,7 @@ gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'skim'
 gem 'slim-rails'
+gem 'thinking-sphinx'
 gem 'validate_url'
 gem 'whenever', require: false
 
@@ -84,6 +86,7 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
+  gem 'database_cleaner'
   gem 'launchy'
   gem 'rails-controller-testing'
   gem 'shoulda-matchers'
