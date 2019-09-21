@@ -7,6 +7,8 @@ feature 'User can create answer', "
 " do
   given(:user) { create(:user) }
   given(:question) { create :question }
+  given!(:subscribed_user) { create(:user) }
+  given!(:subscriber) { create(:subscriber, user: subscribed_user, question: question) }
 
   describe 'Authenticated user tries to create answer' do
     background do
@@ -39,6 +41,17 @@ feature 'User can create answer', "
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'Subscribed user receive email', js: true do
+      Sidekiq::Testing.inline! do
+        fill_in 'Body', with: 'Answer body'
+        click_on 'Create answer'
+        sleep(1)
+        open_email subscribed_user.email
+
+        expect(current_email).to have_content "New answer for a question:#{question.title}"
+      end
     end
   end
 

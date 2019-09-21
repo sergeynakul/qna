@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
@@ -37,9 +39,13 @@ Rails.application.routes.draw do
       resources :comments, only: %i[create]
       patch :best, on: :member
     end
+    resources :subscribers, shallow: true, only: %i[create destroy]
   end
 
   resources :attachments, only: :destroy
 
   mount ActionCable.server => '/cable'
+  authenticate :user, ->(u) { u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 end
