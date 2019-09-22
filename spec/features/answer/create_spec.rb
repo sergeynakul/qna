@@ -69,7 +69,7 @@ feature 'User can create answer', "
       Capybara.using_session('user') do
         fill_in 'Body', with: 'Test answer body'
         click_on 'Create answer'
-
+        sleep(0.5)
         within '.answers' do
           expect(page).to have_content 'Test answer body'
         end

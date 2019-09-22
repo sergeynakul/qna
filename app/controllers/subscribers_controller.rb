@@ -16,7 +16,7 @@ class SubscribersController < ApplicationController
   helper_method :question
 
   def subscriber
-    Subscriber.find_or_initialize_by(user: current_user, question: question)
+    @subscriber ||= Subscriber.find_or_initialize_by(user: current_user, question: question)
   end
 
   def question

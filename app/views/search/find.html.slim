@@ -1,0 +1,14 @@
+= form_with model: @search, url: search_path, method: :get, local: true do |f|
+  = render 'shared/errors', resource: @search
+  p
+    = f.label :query
+    = f.text_field :query
+  p
+    = f.label :indices
+    = f.select :indices, options_for_select(Search::INDICES.map { |index| [index.capitalize, index] }, @search.indices), { include_blank: false, include_hidden: false}, { multiple: true }
+  
+  = f.submit 'Search'
+  
+= render 'results'
+
+p= link_to 'Back', root_path

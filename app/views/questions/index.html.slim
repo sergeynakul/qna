@@ -1,5 +1,7 @@
 - if user_signed_in?
   p= link_to 'Your rewards', user_rewards_path(current_user)
+  
+p= link_to 'Search', search_find_path
 
 p= link_to 'Ask question', new_question_path
 
