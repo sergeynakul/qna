@@ -12,7 +12,7 @@ class Answer < ApplicationRecord
 
   accepts_nested_attributes_for :links, reject_if: :all_blank, allow_destroy: true
 
-  default_scope { order(best: :desc) }
+  default_scope { order(best: :desc, created_at: :asc) }
 
   after_create :subscribe_job
 
