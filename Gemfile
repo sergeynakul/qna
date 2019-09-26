@@ -44,7 +44,7 @@ gem 'capybara-email'
 gem 'cocoon'
 gem 'devise'
 gem 'doorkeeper'
-gem 'dotenv-rails', groups: %i[development test]
+gem 'dotenv-rails'
 gem 'gon'
 gem 'jquery-rails'
 gem 'mini_racer'
