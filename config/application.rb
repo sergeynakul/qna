@@ -20,6 +20,7 @@ module Qna
 
     config.active_job.queue_adapter = :sidekiq
     config.autoload_paths += [config.root.join('app')]
+    config.cache_store = :redis_store, "redis://localhost:6379/0/cache", { expires_in: 90.minutes }
 
     config.generators do |g|
       g.test_framework :rspec,
@@ -28,5 +29,6 @@ module Qna
                        routing_specs: false,
                        request_specs: false
     end
+
   end
 end

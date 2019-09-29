@@ -1,27 +1,28 @@
-div.answer id="answer-#{answer.id}"
-  p= answer.body
-  - if answer.files.attached?
-    - answer.files.each do |file|
-      .file id="file-#{file.id}"
-        = link_to file.filename.to_s, url_for(file)
-        = link_to 'Delete file', attachment_path(file), method: :delete, remote: true
-  - if answer.links.present?
-    .links
-      = render 'shared/links', resource: answer
-  - if !answer.best? && current_user&.author?(answer.question)
-    p= link_to 'Best', best_answer_path(answer), method: :patch, remote: true
-  - if current_user&.author?(answer)
-    p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-    p= link_to 'Delete answer', answer, method: :delete, remote: true
-    
-  = render 'shared/votes', resource: answer
+- cache [current_user || 'guest', answer] do
+  div.answer id="answer-#{answer.id}"
+    p= answer.body
+    - if answer.files.attached?
+      - answer.files.each do |file|
+        .file id="file-#{file.id}"
+          = link_to file.filename.to_s, url_for(file)
+          = link_to 'Delete file', attachment_path(file), method: :delete, remote: true
+    - if answer.links.present?
+      .links
+        = render 'shared/links', resource: answer
+    - if !answer.best? && current_user&.author?(answer.question)
+      p= link_to 'Best', best_answer_path(answer), method: :patch, remote: true
+    - if current_user&.author?(answer)
+      p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+      p= link_to 'Delete answer', answer, method: :delete, remote: true
 
-  = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-    = f.label :body, 'Your answer'
-    = f.text_area :body
-    = f.label :files
-    = f.file_field :files, multiple: true, direct_upload: true
-    = render 'shared/links_form', f: f
-    = f.submit 'Save'
+    = render 'shared/votes', resource: answer
 
-  = render 'shared/comments', parent: answer
+    = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+      = f.label :body, 'Your answer'
+      = f.text_area :body
+      = f.label :files
+      = f.file_field :files, multiple: true, direct_upload: true
+      = render 'shared/links_form', f: f
+      = f.submit 'Save'
+
+    = render 'shared/comments', parent: answer
