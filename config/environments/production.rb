@@ -97,15 +97,15 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
-      address: 'smtp.gmail.com',
-      port: 587,
-      domain: '104.248.199.224:2222',
-      authentication: 'plain',
-      user_name: ENV['SMTP_USERNAME'],
-      password: ENV['SMTP_PASSWORD'],
-      enable_starttls_auto: true
+    address: 'smtp.gmail.com',
+    port: 587,
+    domain: '104.248.199.224:2222',
+    authentication: 'plain',
+    user_name: ENV['SMTP_USERNAME'],
+    password: ENV['SMTP_PASSWORD'],
+    enable_starttls_auto: true
   }
 
   config.action_mailer.default_url_options = { host: '104.248.199.224' }
-  config.action_mailer.default_options = {from: 'ror.test.e@gmail.com'}
+  config.action_mailer.default_options = { from: 'ror.test.e@gmail.com' }
 end

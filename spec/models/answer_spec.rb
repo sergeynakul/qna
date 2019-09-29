@@ -54,4 +54,15 @@ RSpec.describe Answer, type: :model do
     expect(AnswerNotificationJob).to receive(:perform_later).with(answer)
     answer.save
   end
+
+  describe 'default scope' do
+    let!(:first_answer) { create(:answer) }
+    let!(:best_answer) { create(:answer, best: true) }
+    let!(:second_answer) { create(:answer) }
+
+    it 'orders by best and asc' do
+      first_answer.update(body: 'new body')
+      expect(Answer.all).to eq [best_answer, first_answer, second_answer]
+    end
+  end
 end

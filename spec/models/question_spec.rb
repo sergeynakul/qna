@@ -25,4 +25,14 @@ RSpec.describe Question, type: :model do
   it 'author subscribes by default' do
     expect(question.subscribers.first.user).to eq question.user
   end
+
+  describe 'default scope' do
+    let!(:first_question) { create(:question) }
+    let!(:second_question) { create(:question) }
+
+    it 'orders by asc' do
+      first_question.update(title: 'new title')
+      expect(Question.all).to eq [first_question, second_question]
+    end
+  end
 end
