@@ -1,1 +1,2 @@
-p= comment.body
+- cache [current_user || 'guest', comment] do
+  p= comment.body

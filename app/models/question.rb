@@ -14,6 +14,8 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
+  default_scope { order(created_at: :asc) }
+
   after_create :author_subscription
 
   private
