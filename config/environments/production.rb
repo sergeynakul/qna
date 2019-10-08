@@ -106,6 +106,6 @@ Rails.application.configure do
     enable_starttls_auto: true
   }
 
-  config.action_mailer.default_url_options = { host: '104.248.199.224' }
+  config.action_mailer.default_url_options = { host: 'qna.pp.ua' }
   config.action_mailer.default_options = { from: 'ror.test.e@gmail.com' }
 end
